@@ -16,6 +16,8 @@
 			<div class="form-group gen-form">
 				<label>Enter musical notes for generation (Example: AABADEFABG)</label>
 				<input type="text" class="form-control" ng-model="vm.notes">
+				<label class="radio-inline"><input type="radio" ng-model="vm.order" value="first">First-order</label>
+				<label class="radio-inline"><input type="radio" ng-model="vm.order" value="second">Second-order</label>
 				<button type="button" class="btn btn-primary gen-btn" ng-click="vm.generate()">Generate Music</button>
 			</div>
 		</div>
