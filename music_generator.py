@@ -43,7 +43,6 @@ def build_second_order(notes):
 	m_dict = {}
 	for i in xrange(0, len(notes)-2):
 		current_pair=(notes[i]+notes[i+1])
-		print current_pair
 		m_dict.setdefault(current_pair,[]).append(notes[i+2])
 	return m_dict
 
@@ -59,6 +58,19 @@ def generate_score(markov_dict):
 		current = char
 		i += 1
 	return " ".join(score)
+
+def generate_score_second_order(markov_dict):
+	most_freq = max(markov_dict, key= lambda x: len(markov_dict[x]))
+	current = most_freq
+	score = [current[0], current[1]]#contains the first an second elements
+	i = 0
+	while (current in markov_dict) and i < 100:
+		char = random.choice(markov_dict[current])
+		score.append(char)
+		current = score[len(score)-2]+score[len(score)-1] #current is the last two elements in in the list
+		i += 2 
+	return " ".join(score)
+
 
 ## Main ##
 
@@ -94,6 +106,15 @@ print "\nsecond-order adjacency list representing transitions on current musical
 s= build_second_order(notes)
 for key, value in s.iteritems():
 	print "key: "+key + " values: "+ str(value)
+
+score_list = []
+
+for i in xrange(0, 20):
+	score = generate_score_second_order(s)
+	score_list.append(score)
+	print str(i) + ": " + score + "\n"
+
+
 
 
 
