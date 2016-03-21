@@ -18,33 +18,12 @@ def build_markov_dict(s):
 			markov_dict[s[i]].append(s[i+1])
 	return markov_dict
 
-def build_markov_dict_2(s):
-	# Builds up a dictionary using input string
-	# e.g. {A -> [A, A, B, C, A], B -> [A, B, A, C, C], ...}
-	markov_dict = {}
-	for i in xrange(0, len(s)-2):
-		if not s[i: i+1] in markov_dict:
-			# If the character is not a key yet, initialize value to list with next char
-			markov_dict[s[i: i+1]] = [s[i+2]]
-		else:
-			markov_dict[s[i: i+1]].append(s[i+2])
-	return markov_dict
-
 def build_charset(notes):
 	char_set = set()
 	for char in notes:
 		char_set.add(char)
 	sorted_set = sorted(char_set)
 	return sorted_set
-def build_charset_2(notes):
-	char_set = set()
-	#for char in notes:
-	for i in xrange(0, len(notes)-1):
-		print notes[i]+ notes[i+1]
-		char_set.add((notes[i]+ notes[i+1]))
-#	sorted_set = sorted(char_set)
-	return char_set #sorted_set
-
 def build_fo_adjlist(notes):
 	# Builds a first order Markov chain
 	markov_dict = build_markov_dict(notes)
@@ -67,20 +46,6 @@ def build_second_order(notes):
 		print current_pair
 		m_dict.setdefault(current_pair,[]).append(notes[i+2])
 	return m_dict
-
-def build_fo_adjlist_2(notes):
-	# Builds a first order Markov chain
-	markov_dict = build_markov_dict_2(notes)
-	sorted_set = build_charset_2(notes)
-	adjlist = [None] * len(sorted_set)
-	i = 0
-	for char in sorted_set:
-		if char not in markov_dict:
-			adjlist[i] = []
-		else:
-			adjlist[i] = markov_dict[char]
-		i += 1
-	return adjlist
 
 
 def generate_score(markov_dict):
@@ -106,18 +71,6 @@ notes = raw_input()
 adj_list = build_fo_adjlist(notes)
 charset = build_charset(notes)
 
-#adj_list2 = build_fo_adjlist_2(notes)
-#charset2 = build_charset(notes)
-s= build_second_order(notes)
-
-for key, value in s.iteritems():
-	print "key: "+key 
-	print value
-
-#for i in xrange(0, len(adj_list2)):
-#	print charset2[i] + ": " + str(adj_list2[i])
-
-
 
 print "\nFirst-order adjacency list representing transitions on current musical note\n"
 for i in xrange(0, len(adj_list)):
@@ -133,3 +86,14 @@ for i in xrange(0, 20):
 	score = generate_score(markov_dict)
 	score_list.append(score)
 	print str(i) + ": " + score + "\n"
+
+
+#SECOND ORDER ----
+print "\nsecond-order adjacency list representing transitions on current musical note\n"
+
+s= build_second_order(notes)
+for key, value in s.iteritems():
+	print "key: "+key + " values: "+ str(value)
+
+
+
