@@ -20,8 +20,10 @@
 				<label class="radio-inline"><input type="radio" ng-model="vm.order" value="second">Second-order</label>
 				<button type="button" class="btn btn-primary gen-btn" ng-click="vm.generate()">Generate Music</button>
 			</div>
-			<div ng-repeat="score in vm.generated_songs">
-				{{score.join(", ")}}
+			<div class="scores">
+				<div ng-repeat="score in vm.generated_songs" ng-click="vm.playSong(score)">
+					{{score.join(" ")}}
+				</div>
 			</div>
 		</div>
 	</body>

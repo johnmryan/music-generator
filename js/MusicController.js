@@ -23,7 +23,6 @@ app.controller('MusicController', ['$scope', function($scope) {
 					var score = generate_score(markov_dict);
 					scores.push(score);
 				}
-				scores.pop();
 				vm.generated_songs = scores;
 			}
 			else {
@@ -39,7 +38,30 @@ app.controller('MusicController', ['$scope', function($scope) {
 		}
 	}
 
-	//Helper functions
+	vm.playSong = function($parentIndex) {
+		var song = $parentIndex;
+		var timber_objects = createTimberObjects(song);
+		playNote(0, timber_objects);
+	}
+
+	//Helper functions	
+	function playNote(p, objs){
+		if (p < objs.length){
+			T("perc", {r:250}, objs[p]).on("ended", function() {
+				this.pause();
+				playNote(p+1, objs); // Recursive call to play a note until p is less than 7.
+			}).bang().play();
+		}
+	}
+
+	function createTimberObjects(song) {
+		var objs = [];
+		for (var i=0; i<song.length;i++) {
+			objs.push(T("saw", {freq:frequencies[song[i]]}));
+		}
+		return objs;
+	}
+
 	function random_choice(choices) {
 		var index = Math.floor(Math.random() * choices.length);
 		return choices[index];
@@ -125,6 +147,7 @@ app.controller('MusicController', ['$scope', function($scope) {
 			current = c;
 			i++;
 		}
+		score.pop();
 		return score;
 	}
 	
