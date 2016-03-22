@@ -1,5 +1,5 @@
 # Jack Ryan
-# 2/25/2016
+# 3/20/2016
 # CSE 30151
 # music_generator.py
 # Goal: support at least first and second order music generation

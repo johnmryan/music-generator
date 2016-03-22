@@ -58,7 +58,7 @@ app.controller('MusicController', ['$scope', function($scope) {
 	function createTimberObjects(song) {
 		var objs = [];
 		for (var i=0; i<song.length;i++) {
-			objs.push(T("saw", {freq:frequencies[song[i]]}));
+			objs.push(T("saw", {freq:frequencies[song[i].toUpperCase()]}));
 		}
 		return objs;
 	}
