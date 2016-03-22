@@ -27,7 +27,14 @@ app.controller('MusicController', ['$scope', function($scope) {
 				vm.generated_songs = scores;
 			}
 			else {
-				//build_so(music);
+				var markov_dict = build_second_order(music);
+				var scores = [];
+				for (var i=0;i<10;i++) {
+					var score = generate_second_order(markov_dict);
+					scores.push(score);
+				}
+				scores.pop();
+				vm.generated_songs = scores;
 			}
 		}
 	}
@@ -51,7 +58,37 @@ app.controller('MusicController', ['$scope', function($scope) {
 		}
 		return markov_dict;
 	}
-	
+   function build_second_order(s){
+		var aMap = {};
+		for (var i=0; i < s.length-2; i++) {
+			key = s[i]+s[i+1];
+			value=s[i+2];
+			aMap[key] = aMap[key] || [];
+			aMap[key].push(value);
+		}
+		return aMap;
+   }
+	function generate_second_order(markov_dict){	
+		var most_freq = Object.keys(markov_dict)[0];
+		var len = markov_dict[most_freq].length;
+		for (key in markov_dict) {
+			if (markov_dict[key].length > len) {
+				most_freq = key;
+				len = markov_dict[key].length;
+			}
+		}
+		var current = most_freq;
+		var score = [current[0], current[1]];
+		var i = 0;
+		while (current in markov_dict && i < 30) {
+			c = random_choice(markov_dict[current]);
+			score.push(c);
+			current = score[score.length-2]+score[score.length-1];
+			i +=2;
+		}
+		return score;
+	}
+						   
 	function build_charset(notes) {
 		char_set = {};
 		for (var i=0; i < notes.length; i++) {
