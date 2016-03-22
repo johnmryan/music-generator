@@ -49,7 +49,7 @@ app.controller('MusicController', ['$scope', function($scope) {
 		if (p < objs.length){
 			T("perc", {r:250}, objs[p]).on("ended", function() {
 				this.pause();
-				playNote(p+1, objs); // Recursive call to play a note until p is less than 7.
+				playNote(p+1, objs); // Recursive call to play a note until song is over
 			}).bang().play();
 		}
 	}
