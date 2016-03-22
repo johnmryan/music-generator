@@ -16,6 +16,7 @@ app.controller('MusicController', ['$scope', function($scope) {
 	vm.generate = function() {
 		if (vm.notes) {
 			var music = vm.notes;
+			vm.notesentered = vm.notes;
 			if (vm.order === "first") {
 				var markov_dict = build_markov_dict(music);
 				var scores = [];
@@ -37,7 +38,7 @@ app.controller('MusicController', ['$scope', function($scope) {
 			}
 		}
 	}
-
+	
 	vm.playSong = function($parentIndex) {
 		var song = $parentIndex;
 		var timber_objects = createTimberObjects(song);

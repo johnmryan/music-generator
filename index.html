@@ -20,9 +20,19 @@
 				<label class="radio-inline"><input type="radio" ng-model="vm.order" value="second">Second-order</label>
 				<button type="button" class="btn btn-primary gen-btn" ng-click="vm.generate()">Generate Music</button>
 			</div>
-			<div class="scores">
-				<div ng-repeat="score in vm.generated_songs" ng-click="vm.playSong(score)">
-					{{score.join(" ")}}
+			<div class="container" ng-show="vm.notesentered">
+				<label>Original: </label>
+					<div class="scores">
+						{{vm.notesentered}}<button type="button" class="btn btn-primary gen-btn" ng-click="vm.playSong(vm.notes)">Play</button>
+					</div>
+				</div>
+			<div class="container" ng-show="vm.notesentered" >
+				<label>Generated Scores:</label>
+				<div class="scores">
+							<div ng-repeat="score in vm.generated_songs">
+							{{score.join(" ")}} 
+							<button type="button" class="btn btn-primary gen-btn" ng-click="vm.playSong(score)">Play</button>
+					</div>
 				</div>
 			</div>
 		</div>
